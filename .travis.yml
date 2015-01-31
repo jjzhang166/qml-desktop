@@ -14,7 +14,7 @@ script:
 - source /opt/qt53/bin/qt53-env.sh
 - mkdir .build
 - cd .build
-- cmake ..
+- CXX=/usr/bin/clang++ cmake ..
 - make
 
 notifications:
