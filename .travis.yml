@@ -15,7 +15,7 @@ script:
 - source /opt/qt53/bin/qt53-env.sh
 - mkdir .build
 - cd .build
-- cmake -G Ninja ..
+- cmake -G Ninja -DCMAKE_MAKE_PROGRAM=/usr/bin/ninja ..
 - ninja
 
 notifications:
