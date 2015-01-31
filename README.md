@@ -1,7 +1,8 @@
 QML Desktop
 =====================
 
-[![Build Status](https://travis-ci.org/papyros/qml-desktop.svg?branch=master)](https://travis-ci.org/papyros/qml-desktop)
+[![Build 
+Status](https://travis-ci.org/papyros/qml-desktop.svg?branch=cmake)](https://travis-ci.org/papyros/qml-desktop)
 
 The QML Desktop framework provides a plugin for QML that exposes different system-integrated DBus "components" that are useful for desktop shells as well as apps that would like to get access to notifications or music players, for example.
 
@@ -9,9 +10,11 @@ The QML Desktop framework provides a plugin for QML that exposes different syste
 
 First, compile and install the plugin:
 
-    qmake
-    make
-    sudo make install
+    $ mkdir .build
+    $ cd .build
+    $ cmake ..
+    $ make #or your favourite build tool
+    # make install
 
 Then, to use in your desktop shell, simply import the framework like this:
 
