@@ -11,13 +11,14 @@ install:
 - sudo apt-get -y install pep8 pyflakes libpulse-dev
 - sudo apt-get -y install qt53quickcontrols qt53graphicaleffects
 - sudo apt-get -y install qt53tools
+- sudo apt-get -y install ninja-build
 - export CXX="clang++-3.4"
 script:
 - source /opt/qt53/bin/qt53-env.sh
 - mkdir .build
 - cd .build
-- cmake ..
-- make
+- cmake -G Ninja ..
+- ninja
 
 notifications:
   slack: papyros:qTNflfj4wj3AcYKLJJdpKOa4

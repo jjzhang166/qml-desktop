@@ -57,5 +57,3 @@ bool KeyEventFilter::eventFilter(QObject *object, QEvent *event)
     QCoreApplication::sendEvent(this, event);
     return event->isAccepted();
 }
-
-#include "moc_keyeventfilter.cpp"
