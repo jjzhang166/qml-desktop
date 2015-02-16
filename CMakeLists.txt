@@ -52,6 +52,7 @@ SET(LIB_SRCS
     ${CMAKE_SOURCE_DIR}/src/upower/upowerdevice.h
     ${CMAKE_SOURCE_DIR}/src/upower/upowerdevicestate.h
     ${CMAKE_SOURCE_DIR}/src/upower/upowerdevicetype.h
+    ${CMAKE_SOURCE_DIR}/src/processhelper/processhelper.h
 )
 
 ADD_LIBRARY(MaterialDesktop SHARED ${LIB_SRCS})
