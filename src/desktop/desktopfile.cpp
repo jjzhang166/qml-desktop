@@ -19,7 +19,8 @@
 
 #include "desktopfile.h"
 
-DesktopFile::DesktopFile(QString location, QStringList iconSizes, QObject *parent) : QObject(parent), m_iconSizes(iconSizes) {
+DesktopFile::DesktopFile(IconHelper *helper, QString location, QObject *parent) : QObject(parent) {
+    m_helper = helper;
     if (location == "" && m_location != "") {
         processLocation(m_location);
     } else if (location != "") {
@@ -49,12 +50,6 @@ QString DesktopFile::getEnvVar(int pid){
     if (pos == -1)
         return "";
     return rx.cap(1);
-}
-
-void DesktopFile::setLocation(QString location){
-    m_location = location;
-    emit locationChanged();
-    processLocation(m_location);
 }
 
 void DesktopFile::launch() {
@@ -87,7 +82,7 @@ void DesktopFile::processLocation(const QString &location) {
     }
     bool absoluteRet = QFile::exists(tempIcon);
     if (!absoluteRet) {
-        if (tempIcon.endsWith(".png", Qt::CaseInsensitive) ||
+        /*if (tempIcon.endsWith(".png", Qt::CaseInsensitive) ||
             tempIcon.endsWith(".svg", Qt::CaseInsensitive) ||
             tempIcon.endsWith(".xpm", Qt::CaseInsensitive))
         {
@@ -118,7 +113,8 @@ void DesktopFile::processLocation(const QString &location) {
             if (m_icon != "") {
                 break;
             }
-        }
+        }*/
+        m_helper->findIcon(tempIcon);
     }
     else {
         m_icon = tempIcon;

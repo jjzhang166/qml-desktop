@@ -22,19 +22,7 @@
 DesktopScrobbler::DesktopScrobbler(QQuickItem *parent) : QQuickItem(parent) {}
 
 void DesktopScrobbler::componentComplete() {
-    QList<int> sizesList;
-    sizesList << 1024 << 512 << 256 << 192 << 128 << 96  << 72 << 64 << 48 << 36 << 32 << 24 << 22 << 16 << 8;
-    int diff = abs(m_iconSize - sizesList[0]);
-    int num1 = sizesList[0];
-    for (int a = 0; a < sizesList.length(); a++) {
-        if (diff > abs(m_iconSize - sizesList[a]))
-        {
-            diff = abs(m_iconSize - sizesList[a]);
-            num1 = sizesList[a];
-        }
-    }
-    int num2 = sizesList.indexOf(num1);
-    processedIconSizes = QString("%1x%1;%2x%2;%3x%3;%4x%4;%5x%5").arg(sizesList[num2-2]).arg(sizesList[num2-1]).arg(num1).arg(sizesList[num2+1]).arg(sizesList[num2+2]).split(";");
+    helper = new IconHelper(m_iconSize, this);
     QStringList entries;
     QStringList globalEntries = QDir("/usr/local/share/applications").entryList(QStringList() << "*.desktop");
     QStringList anotherGlobalEntries = QDir("/usr/share/applications").entryList(QStringList() << "*.desktop");
@@ -49,7 +37,7 @@ void DesktopScrobbler::componentComplete() {
         entries << QString("~/.local/share/applications/%1").arg(localEntries.at(i));
     }
     for (int i = 0; i < entries.length(); i++){
-        desktopList << new DesktopFile(entries.at(i), processedIconSizes, this);
+        desktopList << new DesktopFile(helper, entries.at(i), this);
     }
     desktopList.sort(DesktopScrobbler::cmp);
     fileWatcher = new QFileSystemWatcher(entries, this);
@@ -65,18 +53,18 @@ void DesktopScrobbler::processFileModification(const QString &path) {
         for (int i = 0; i < desktopList.length(); i++){
             if (desktopList.at(i)->property("location").toString() == path){
                 DesktopFile *desktopFile = desktopList.at(i);
-                desktopList.replace(i, new DesktopFile(path, processedIconSizes, this));
-		delete desktopFile;
+                desktopList.replace(i, new DesktopFile(helper, path, this));
+                delete desktopFile;
                 break;
             }
         }
     } else {
         for (int i = 0; i < desktopList.length(); i++){
             if (desktopList.at(i)->property("location").toString() == path){
-		DesktopFile *desktopFile = desktopList.at(i);
+                DesktopFile *desktopFile = desktopList.at(i);
                 desktopList.removeAt(i);
                 fileWatcher->removePath(path);
-		delete desktopFile;
+                delete desktopFile;
                 break;
             }
         }
@@ -96,7 +84,7 @@ void DesktopScrobbler::processDirChange(const QString &path){
     if (currentPath.length() != entryList.length()) {
         for (int i = 0; i < entryList.length(); i++){
             if (!currentPath.contains(path + "/" + entryList[i])) {
-                desktopList << new DesktopFile(path + "/" + entryList[i], processedIconSizes, this);
+                desktopList << new DesktopFile(helper, path + "/" + entryList[i], this);
                 desktopList.sort(DesktopScrobbler::cmp);
                 emit desktopFilesChanged(desktopFiles());
                 fileWatcher->addPath(path + "/" + entryList[i]);

@@ -27,6 +27,7 @@
 #include <cmath>
 #include "../qquicklist/qquicklist.h"
 #include "desktopfile.h"
+#include "../iconhelper/iconhelper.h"
 
 class DesktopScrobbler : public QQuickItem {
     Q_OBJECT
@@ -41,7 +42,6 @@ public:
     }
     Q_INVOKABLE int getIndexByName(QString name); //localized also works
     static bool cmp(const DesktopFile *a, const DesktopFile *b);
-
     int m_iconSize;
 
     virtual void componentComplete();
@@ -55,6 +55,7 @@ private:
     QFileSystemWatcher *dirWatcher;
     QQuickList<DesktopFile> desktopList;
     QStringList processedIconSizes;
+    IconHelper *helper;
 private slots:
     void processFileModification(const QString &path);
     void processDirChange(const QString &path);
