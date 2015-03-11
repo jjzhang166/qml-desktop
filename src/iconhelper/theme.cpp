@@ -9,10 +9,10 @@ Theme::Theme(QObject *parent, QString themeName) : QObject(parent) {
         envList = QVariant(qgetenv("XDG_DATA_DIRS")).toString().split(":");
     }
     for (int i = 0; i < envList.length(); i++) {
-        if (QDir(envList.at(i) + themeName).exists()) {
-            themeDir = QDir(envList.at(i) + themeName);
+        if (QDir(envList.at(i) + "icons/" + themeName).exists()) {
+            themeDir = QDir(envList.at(i) + "icons/" + themeName);
             subdirs = themeDir.entryList(QDir::AllDirs);
-            themeIndex = new QSettings(themeDir.absoluteFilePath("index.theme"));
+            themeIndex = new QSettings(themeDir.absoluteFilePath("index.theme"), QSettings::IniFormat);
             if (themeIndex->value("Icon Theme/Inherits").isNull()) {
                 break;
             } else {

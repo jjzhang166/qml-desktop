@@ -43,6 +43,7 @@ QString IconHelper::findIcon(QString iconName) {
 }
 
 QString IconHelper::findIconHelper(QString iconName, Theme *theme) {
+    processIconName(iconName);
     QString fileName = theme->lookupIcon(iconName, m_iconSize);
     if (!fileName.isEmpty()) {
         return fileName;

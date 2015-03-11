@@ -6,7 +6,6 @@
 #include <QDir>
 #include <QSettings>
 
-
 class Theme : public QObject
 {
     Q_OBJECT

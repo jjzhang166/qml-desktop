@@ -82,39 +82,7 @@ void DesktopFile::processLocation(const QString &location) {
     }
     bool absoluteRet = QFile::exists(tempIcon);
     if (!absoluteRet) {
-        /*if (tempIcon.endsWith(".png", Qt::CaseInsensitive) ||
-            tempIcon.endsWith(".svg", Qt::CaseInsensitive) ||
-            tempIcon.endsWith(".xpm", Qt::CaseInsensitive))
-        {
-            tempIcon.truncate(tempIcon.length() - 4);
-        }
-        //we're only looking in hicolor and highcontrast, *for now*, other themes will not be that hard to add later on
-        for (int i = 0; i < envList.length(); i++){
-            QString iconTemplate = envList[i] + "icons/%1/%2/apps/%3";
-            QString firstScalable = iconTemplate.arg("hicolor").arg("scalable").arg(tempIcon) + ".svg";
-            QString secondScalable = iconTemplate.arg("HighContrast").arg("scalable").arg(tempIcon) + ".svg";
-            m_icon = QFile::exists(firstScalable) ? firstScalable : (QFile::exists(firstScalable + "z") ? firstScalable + "z" : (QFile::exists(secondScalable) ? secondScalable : (QFile::exists(secondScalable + "z") ? secondScalable + "z" : "")));
-            if (m_icon != "") {
-                break;
-            }
-            for (int j = 0; j < m_iconSizes.length(); j++) {
-               QString firstNotScalable = iconTemplate.arg("hicolor").arg(m_iconSizes[j]).arg(tempIcon) + ".png";
-               QString secondNotScalable = iconTemplate.arg("HighContrast").arg(m_iconSizes[j]).arg(tempIcon) + ".png";
-               m_icon = QFile::exists(firstNotScalable) ? firstNotScalable : (QFile::exists(secondNotScalable) ? secondNotScalable : "");
-               if (m_icon != "") {
-                    break;
-               }
-            }
-            if (m_icon != "") {
-                break;
-            }
-            QString pixmap = envList[i] + "pixmaps/" + tempIcon;
-            m_icon = QFile::exists(pixmap + ".png") ? pixmap + ".png" : (QFile::exists(pixmap + ".xpm") ? pixmap + ".xpm" : "");
-            if (m_icon != "") {
-                break;
-            }
-        }*/
-        m_helper->findIcon(tempIcon);
+        m_icon = m_helper->findIcon(tempIcon);
     }
     else {
         m_icon = tempIcon;
